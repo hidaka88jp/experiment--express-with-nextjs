@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { PrismaClient } from '@prisma/client'
+import crypto from "crypto";
 
 const prisma = new PrismaClient()
 
@@ -9,30 +10,37 @@ router.get('/', (req, res) => {
 });
 
 // POST /users/login
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   const { name, password } = req.body;
 
-  // find user by name
   const user = await prisma.user.findUnique({
-    where: { name }
+    where: { name },
   });
 
   if (!user) {
     return res.status(401).json({ error: "User not found" });
   }
 
-  // No hash so far
   if (user.password !== password) {
     return res.status(401).json({ error: "Invalid password" });
   }
 
-  // success
+  const token = crypto.randomUUID(); // or uuid
+
+  await prisma.session.create({
+    data: {
+      id: token,
+      userId: user.id,
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7日
+    },
+  });
+
   return res.json({
-    id: user.id,
-    name: user.name,
-    message: "Login successful"
+    session_token: token,
+    message: "Login successful",
   });
 });
+
 
 // GET /users/:id
 router.get('/:id', async (req, res) => {
