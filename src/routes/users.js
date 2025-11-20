@@ -1,9 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import { PrismaClient } from '@prisma/client'
+import prisma from "../../prisma/prismaClient.js";
 import crypto from "crypto";
-
-const prisma = new PrismaClient()
 
 router.get('/', (req, res) => {
   res.json({ message: 'users endpoint' });
