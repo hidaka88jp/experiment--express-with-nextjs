@@ -56,4 +56,28 @@ router.get("/", async (req, res) => {
   return res.json(messages);
 });
 
+// GET /messages/user
+router.get("/user", async (req, res) => {
+  const { token } = req.query;
+  if (!token) return res.status(401).json({ error: "No token" });
+
+  const session = await prisma.session.findUnique({
+    where: { id: token },
+  });
+
+  if (!session) return res.status(401).json({ error: "Invalid session" });
+
+  const messages = await prisma.message.findMany({
+    where: {
+      userId: session.userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  res.json(messages);
+});
+
+
 export default router;
