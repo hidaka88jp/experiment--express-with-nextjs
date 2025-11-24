@@ -20,9 +20,11 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "User not found" });
   }
 
-  if (user.password !== password) {
-    return res.status(401).json({ error: "Invalid password" });
-  }
+  const isValid = await bcrypt.compare(password, user.password);
+
+	if (!isValid) {
+	  return res.status(401).json({ error: "Invalid password" });
+	}
 
   const token = crypto.randomUUID(); // or uuid
 
