@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  spike-message-board-mysql:
+    image: mysql:8
+    container_name: spike-message-board-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: app
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: app_pass
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+
+  spike-message-board-backend:
+    build: .
+    container_name: spike-message-board-backend
+    depends_on:
+      - spike-message-board-mysql
+    expose:
+      - "3001"
+    environment:
+      DATABASE_URL: "mysql://appuser:app_pass@spike-message-board-mysql:3306/app"
+    restart: always
+
+  spike-message-board-nginx:
+    image: nginx:latest
+    container_name: spike-message-board-nginx
+    depends_on:
+      - spike-message-board-backend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: always
+
+volumes:
+  mysql-data:
