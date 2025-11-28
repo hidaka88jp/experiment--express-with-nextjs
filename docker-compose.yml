@@ -38,3 +38,6 @@ services:
 
 volumes:
   mysql-data:
+  messageboard-certbot-etc:
+  messageboard-certbot-var:
+  messageboard-certbot-www:
