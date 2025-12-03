@@ -13,7 +13,7 @@ services:
 
   spike-message-board-backend:
     build:
-      context: ./experiment--express-with-nextjs
+      context: ../../experiment--express-with-nextjs
       dockerfile: Dockerfile
     environment:
       PORT: 3001
@@ -28,7 +28,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
 
 volumes:
   mysql-data: {}
