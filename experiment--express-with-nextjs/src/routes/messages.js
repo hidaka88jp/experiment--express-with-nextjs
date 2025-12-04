@@ -64,6 +64,7 @@ router.post("/", async (req, res) => {
 -----------------------------------------------------*/
 router.get("/", async (req, res) => {
   const messages = await prisma.message.findMany({
+    take: 20,
     include: {
       user: {
         select: {
