@@ -5,10 +5,24 @@ const router = express.Router();
 
 // GET /sessions/validate?token=xxxxx
 router.get("/validate", async (req, res) => {
-  const token = req.query.token;
+  let token = req.query.token;
 
+  // ① token が存在するか
   if (!token) {
     return res.status(400).json({ error: "token is required" });
+  }
+
+  // ② token が配列で来ていないか（攻撃対策）
+  if (Array.isArray(token)) {
+    return res.status(400).json({ error: "Invalid token format" });
+  }
+
+  // ③ 前後の空白を削除
+  token = token.trim();
+
+  // ④ 長さチェック（UUIDなら36文字程度）
+  if (token.length < 10 || token.length > 100) {
+    return res.status(400).json({ error: "Invalid token length" });
   }
 
   const session = await prisma.session.findUnique({
