@@ -1,24 +1,20 @@
-# Lightweight Node.js for production
-FROM node:20-alpine
+FROM node:20-slim
 
-# Create app working directory
+# Install required dependencies for Prisma
+RUN apt-get update && apt-get install -y openssl
+
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-# Copying only dependencies first speeds up the build
+# Install dependencies
 COPY package*.json ./
+RUN npm install
 
-# Install only production dependencies
-RUN npm install --production
-
-# Copy all application code
+# Copy application code
 COPY . .
 
-# Generate Prisma Client (required for Prisma)
+# Generate Prisma Client
 RUN npx prisma generate
 
-# Port for Express to listen on
 EXPOSE 3001
 
-# Command to start Express
 CMD ["node", "src/server.js"]
