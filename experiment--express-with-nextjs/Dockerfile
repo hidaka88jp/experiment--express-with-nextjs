@@ -12,6 +12,9 @@ RUN npm install
 # Copy application code
 COPY . .
 
+ARG DATABASE_URL
+RUN DATABASE_URL=$DATABASE_URL npx prisma generate
+
 EXPOSE 3001
 
 CMD ["npm", "run", "start"]
