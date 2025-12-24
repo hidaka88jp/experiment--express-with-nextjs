@@ -23,15 +23,15 @@ I studied Node.js by following a book, covering topics such as the basics of Nod
 
 However, when using Express specifically as an API, the book introduced a setup where a React project is exported and hosted from the same Express server. While this approach works for learning purposes, it felt less aligned with how modern applications are typically deployed, especially given my existing experience with Next.js deployed on Vercel.
 
-As a result, I chose not to follow the book’s setup directly and instead tried a more realistic architecture: hosting the Next.js frontend on Vercel, and deploying the Express backend separately on Lightsail, communicating through APIs.
-This decision led the project to naturally expand into a full-stack–like experience, involving backend APIs, authentication, database integration, and server-side deployment.
+As a result, I chose not to follow the book’s setup directly and instead tried a more realistic architecture: hosting the Next.js frontend on Vercel, and deploying the Express backend separately on Lightsail, communicating through APIs.  
+This decision led the project to naturally expand into a full-stack–like experience, involving backend APIs, authentication, database integration, and server-side deployment.  
 Because there was no fixed reference implementation to follow, much of the development involved encountering errors and figuring things out along the way, which ultimately became a valuable learning experience.
 
 Through this project, I also gained hands-on experience with areas that had previously been unfamiliar to me, such as backend services, deployment servers, and reverse proxies. While I do not consider myself specialized in these areas, the experience helped me see backend and server-side components as something I can set up and work with when needed, rather than as a black box. This has been valuable for my frontend learning as well, as it gives me confidence that I can prepare a simple backend or server environment on my own when a project requires it.
 
 ### Related Repository
 Frontend (Next.js): https://github.com/hidaka88jp/experiment--nextjs-with-express
-
+  
 
 ## What I Learned
 ### API Design & Authentication
